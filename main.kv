@@ -76,14 +76,51 @@
 			source: "./Questions/question_button.png"
 
 
-<QuestionView>:
-	question_card: question_card.__self__
-	size_hint: 7/8, 1/2
+<QuestionCard>:
+	qa_label: qa_label.__self__
+	text_label: text_label.__self__
+	icon_image: icon_image
+	on_release: root.flip_card()
+	orientation: "vertical"
 
-	Button:
-		id: question_card
-		on_release: root.flip_card()
-		background_normal: ""
-		background_down: ""
-		background_color: app.category_colors.get(root.category, (0, 0, 0))
+	canvas.before:
+		PushMatrix
+		Rotate:
+			angle: self.angle
+			axis: 0, 1, 0
+			origin: self.center
+		Color:
+			rgb: app.category_colors.get(self.category, (0, 0, 0))
+		Rectangle:
+			size: self.size
+			pos: self.pos
+		PopMatrix
+
+	BoxLayout:
+		size_hint_y: 2/5
+
+		Label:
+			id: qa_label
+			text: "Pergunta"
+			font_size: sp(35)
+			italic: True
+			color: (0.8, 0.8, 0.8)
+			text_size: self.size
+			halign: "center"
+			valign: "center"
+		Image:
+			id: icon_image
+			source: "" # "./Icons/" + root.category + ".png"
+			keep_ratio: True
+			allow_stretch: True
+			size_hint_x: None
+			width: self.height
+
+	Label:
+		id: text_label
 		text: root.question
+		font_size: sp(22)
+		text_size: self.size
+		halign: "center"
+		valign: "center"
+		padding: (dp(10), dp(10))

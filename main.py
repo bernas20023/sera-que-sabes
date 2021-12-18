@@ -29,26 +29,47 @@ class QuestionButton(kv.Button):
 	def on_release(self):
 		if app.questions.questions_left(self.category) <= 1:
 			self.disabled = True
-		popup = QuestionView(self.category)
+		popup = kv.ModalView(size_hint=(7/8, 2/5))
+		popup.background = ""
+		popup.background_color = (0, 0, 0, 0)
+		popup.add_widget(QuestionCard(self.category))
 		popup.open()
 
 
-class QuestionView(kv.ModalView):
+class QuestionCard(kv.ButtonBehavior, kv.BoxLayout):
 	category = kv.StringProperty()
+	displaying_question = kv.BooleanProperty()
 	question = kv.StringProperty()
 	answer = kv.StringProperty()
-	question_card = kv.ObjectProperty()
+	angle = kv.NumericProperty()
+	qa_label = kv.ObjectProperty()
+	text_label = kv.ObjectProperty()
+	icon_image = kv.ObjectProperty()
 
 	def __init__(self, category="", **kwargs):
 		super().__init__(**kwargs)
 		self.category = category
 		self.question, self.answer = app.questions.pop_question(category)
+		self.displaying_question = True
+		self.flip_anim = kv.Animation(angle=180, duration=0.3)
+		self.flip_anim.bind(on_complete=self.restitute_content)
 
 	def flip_card(self):
-		if self.question_card.text == self.question:
-			self.question_card.text = self.answer
+		self.angle = 0
+		self.flip_anim.start(self)
+		self.icon_image.opacity = 0
+		self.text_label.text = ""
+		self.qa_label.text = ""
+		self.displaying_question = not self.displaying_question
+
+	def restitute_content(self, *args):
+		self.icon_image.opacity = 1
+		if self.displaying_question:
+			self.text_label.text = self.question
+			self.qa_label.text = "Pergunta"
 		else:
-			self.question_card.text = self.question
+			self.text_label.text = self.answer
+			self.qa_label.text = "Resposta"
 
 
 class DiceButton(kv.Button):
