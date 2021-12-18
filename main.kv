@@ -1,0 +1,89 @@
+#: import Window kvimports.Window
+<Root>:
+	orientation: "vertical"
+	padding: dp(10)
+	spacing: dp(50)
+
+	canvas.before:
+		Color:
+			# TODO: choose color for background
+			rgb: (0.5, 0.5, 0.5)
+		Rectangle:
+			size: self.size
+
+	GridLayout:
+		rows: 6
+		size_hint_y: 4/5
+		spacing: dp(10)
+
+		QuestionButton:
+			category: "art"
+		QuestionButton:
+			category: "geography"
+		QuestionButton:
+			category: "history"
+		QuestionButton:
+			category: "informatic"
+		QuestionButton:
+			category: "math"
+		QuestionButton:
+			category: "science"
+
+	FloatLayout:
+		size_hint_y: 1/5
+
+		DiceButton:
+			dice_image: dice_image.__self__
+			size_hint_x: None
+			width: self.height
+			pos_hint: {"x": 0, "y": 0}
+			background_normal: ""
+			background_down: ""
+			background_color: 0, 0, 0, 0
+
+			Image:
+				id: dice_image
+				source: "./Dice/animation.zip"
+				anim_delay: -1
+				size: self.parent.size
+				pos: self.parent.pos
+
+				canvas.before:
+					PushMatrix
+					Rotate:
+						angle: self.parent.angle
+						axis: 0, 0, 1
+						origin: self.center
+				canvas.after:
+					PopMatrix
+		Button:
+			size_hint_x: None
+			width: self.height
+			pos_hint: {"right": 1, "y": 0}
+
+
+<QuestionButton>:
+	text: (self.category).upper()
+	font_size: sp(20)
+	color: (1, 1, 1)
+	background_color: (0, 0, 0, 0)
+	canvas.before:
+		Color:
+			rgb: app.category_colors.get(self.category, (0, 0, 0))
+		Rectangle:
+			pos: self.pos
+			size: self.size
+			source: "./Questions/question_button.png"
+
+
+<QuestionView>:
+	question_card: question_card.__self__
+	size_hint: 7/8, 1/2
+
+	Button:
+		id: question_card
+		on_release: root.flip_card()
+		background_normal: ""
+		background_down: ""
+		background_color: app.category_colors.get(root.category, (0, 0, 0))
+		text: root.question
