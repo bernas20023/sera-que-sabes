@@ -1,15 +1,63 @@
 #: import Window kvimports.Window
 <Root>:
-	orientation: "vertical"
-	padding: dp(10)
-	spacing: dp(50)
+	loop: True
 
 	canvas.before:
 		Color:
-			# TODO: choose color for background
 			rgb: (0.5, 0.5, 0.5)
 		Rectangle:
 			size: self.size
+
+	QuestionMenu
+	MedalMenu
+
+<MedalMenu@BoxLayout>:
+	orientation: "vertical"
+	padding: dp(10)
+	spacing: dp(10)
+
+	PlayerBox:
+		player_name: "Player 1"
+	PlayerBox
+		player_name: "Player 2"
+	PlayerBox
+		player_name: "Player 3"
+	PlayerBox
+		player_name: "Player 4"
+	PlayerBox
+		player_name: "Player 5"
+
+
+<PlayerBox>:
+	orientation: "vertical"
+
+	canvas.before:
+		Color:
+			rgb: (0, 0, 0)
+		Line:
+			rectangle: (self.x, self.y, self.width, self.height)
+
+
+<PlayerTextInput>:
+	font_size: dp(25)
+	color: (1, 1, 1)
+	multiline: False
+	size_hint_y: None
+	height: self.minimum_height
+
+
+<MedalCheckbox>:
+	source: "./medal_checkbox_normal.png"
+	size_hint_y: None
+	height: self.width
+	pos_hint: {"center_y": 0.5}
+	color: app.category_colors.get(self.category, (1, 1, 1))
+
+
+<QuestionMenu@BoxLayout>:
+	orientation: "vertical"
+	padding: dp(10)
+	spacing: dp(50)
 
 	GridLayout:
 		rows: 6
@@ -56,6 +104,7 @@
 						origin: self.center
 				canvas.after:
 					PopMatrix
+
 		Button:
 			size_hint_x: None
 			width: self.height

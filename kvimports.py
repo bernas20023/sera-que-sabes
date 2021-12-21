@@ -21,6 +21,7 @@ from kivy.core.audio import SoundLoader
 from kivy.animation import Animation
 
 from kivy.uix.behaviors import ButtonBehavior
+from kivy.uix.behaviors import ToggleButtonBehavior
 
 from kivy.properties import StringProperty
 from kivy.properties import NumericProperty
@@ -46,6 +47,7 @@ from kivy.uix.widget import Widget
 from kivy.uix.modalview import ModalView
 from kivy.uix.label import Label
 from kivy.uix.button import Button
+from kivy.uix.togglebutton import ToggleButton
 from kivy.uix.textinput import TextInput
 from kivy.uix.image import Image
 from kivy.uix.image import AsyncImage

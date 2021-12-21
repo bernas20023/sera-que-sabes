@@ -10,13 +10,50 @@ import random as rd
 import kvimports as kv
 
 
-class Root(kv.BoxLayout):
+class Root(kv.Carousel):
 	"""Kivy properties go here"""
 
 	def __init__(self, **kwargs):
 		super().__init__(**kwargs)
 
 		""""""
+
+
+class PlayerBox(kv.BoxLayout):
+	player_name = kv.StringProperty()
+	medals_layout = kv.ObjectProperty()
+
+	def __init__(self, **kwargs):
+		super().__init__(**kwargs)
+
+		player_ti = PlayerTextInput()
+		self.add_widget(player_ti)
+		self.bind(player_name=player_ti.setter("text"))
+
+		self.medals_layout = kv.BoxLayout(padding="10dp", spacing="10dp")
+		self.add_widget(self.medals_layout)
+		for category in app.questions.categories:
+			medal = MedalCheckbox()
+			medal.category = category
+			self.medals_layout.add_widget(medal)
+
+	# TODO: implement win logic
+	def check_win(self):
+		pass
+
+
+class PlayerTextInput(kv.TextInput):
+	pass
+
+
+class MedalCheckbox(kv.ToggleButtonBehavior, kv.Image):
+	category = kv.StringProperty()
+
+	def on_state(self, _, state):
+		if state == "normal":
+			self.source = "./medal_checkbox_normal.png"
+		else:
+			self.source = "./medal_checkbox_down.png"
 
 
 class QuestionButton(kv.Button):
@@ -96,6 +133,11 @@ class DiceButton(kv.Button):
 		self.angle = 0
 		self.rot_anim.start(self)
 		self.roll_sound.play()
+
+
+# TODO: implement button to reset game
+class ResetButton(kv.Button):
+	pass
 
 
 class MainApp(kv.App):
