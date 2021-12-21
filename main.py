@@ -35,11 +35,20 @@ class PlayerBox(kv.BoxLayout):
 		for category in app.questions.categories:
 			medal = MedalCheckbox()
 			medal.category = category
+			app.reset_on_win.append(medal)
 			self.medals_layout.add_widget(medal)
 
-	# TODO: implement win logic
 	def check_win(self):
-		pass
+		if all([medal.state == "down" for medal in self.medals_layout.children]):
+			app.reset_game()
+			sound = kv.SoundLoader().load("./Win/win_sound.mp3")
+			sound.volume = 0.3
+			sound.play()
+			WinPopup(title=f"Parabéns {self.player_name}!").open()
+
+
+class WinPopup(kv.Popup):
+	pass
 
 
 class PlayerTextInput(kv.TextInput):
@@ -55,6 +64,8 @@ class MedalCheckbox(kv.ToggleButtonBehavior, kv.Image):
 		else:
 			self.source = "./medal_checkbox_down.png"
 
+		self.parent.parent.check_win()
+
 
 class QuestionButton(kv.Button):
 	category = kv.StringProperty()
@@ -62,6 +73,7 @@ class QuestionButton(kv.Button):
 	def __init__(self, category="", **kwargs):
 		super().__init__(**kwargs)
 		self.category = category
+		app.bind(questions=lambda *_: setattr(self, "disabled", False))
 
 	def on_release(self):
 		if app.questions.questions_left(self.category) <= 1:
@@ -118,7 +130,7 @@ class DiceButton(kv.Button):
 		self.replace_anim = None
 		self.anim_duration = 1
 		self.rot_anim = kv.Animation(angle=720, duration=self.anim_duration * 1.2)
-		self.roll_sound = kv.SoundLoader.load("./Dice/sound2.wav")
+		self.roll_sound = kv.SoundLoader.load("./Dice/sound.wav")
 
 	def on_release(self):
 		if self.replace_anim is not None:
@@ -135,11 +147,6 @@ class DiceButton(kv.Button):
 		self.roll_sound.play()
 
 
-# TODO: implement button to reset game
-class ResetButton(kv.Button):
-	pass
-
-
 class MainApp(kv.App):
 	questions = kv.ObjectProperty()
 	# TODO: change unique colors for each category
@@ -151,11 +158,17 @@ class MainApp(kv.App):
 		"math": (0, 1, 1),
 		"science": (1, 0, 1),
 	})
+	reset_on_win = kv.ListProperty()
 
 	def build(self):
 		self.questions = QuestionDB()
 		root = Root()
 		return root
+
+	def reset_game(self):
+		for checkbox in self.reset_on_win:
+			checkbox.state = "normal"
+		self.questions = QuestionDB()
 
 
 class QuestionDB(kv.EventDispatcher):

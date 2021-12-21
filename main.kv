@@ -18,14 +18,44 @@
 
 	PlayerBox:
 		player_name: "Player 1"
+
 	PlayerBox
 		player_name: "Player 2"
+
 	PlayerBox
 		player_name: "Player 3"
+
 	PlayerBox
 		player_name: "Player 4"
+
 	PlayerBox
 		player_name: "Player 5"
+
+
+<WinPopup>:
+	title_size: sp(30)
+	title_color: (0, 0, 0)
+	size_hint: 0.9, 0.5
+	background: ""
+	background_color: (0.95, 0.95, 0.95)
+
+	FloatLayout:
+		Image:
+			size_hint: None, 1/2
+			width: self.height
+			source: "./Win/confetti.zip"
+			opacity: 0.7
+			anim_delay: 0.1
+			pos_hint: {"x": 0, "y": 0}
+
+		Label:
+			text: "Você demonstrou grande conhecimento sobre as diferentes áreas de aprendizado e assim ganhou esta partida!"
+			font_size: sp(30)
+			text_size: self.size
+			color: (0, 0, 0)
+			halign: "center"
+			valign: "center"
+			pos_hint: {"center_x": 0.5, "center_y": 0.5}
 
 
 <PlayerBox>:
@@ -106,6 +136,8 @@
 					PopMatrix
 
 		Button:
+			# TODO: add image to the reset button
+			on_release: app.reset_game()
 			size_hint_x: None
 			width: self.height
 			pos_hint: {"right": 1, "y": 0}
@@ -140,7 +172,8 @@
 			origin: self.center
 		Color:
 			rgb: app.category_colors.get(self.category, (0, 0, 0))
-		Rectangle:
+		RoundedRectangle:
+			radius: [20]
 			size: self.size
 			pos: self.pos
 		PopMatrix
@@ -153,12 +186,13 @@
 			text: "Pergunta"
 			font_size: sp(35)
 			italic: True
-			color: (0.8, 0.8, 0.8)
+			color: (0.9, 0.9, 0.9)
 			text_size: self.size
 			halign: "center"
 			valign: "center"
 		Image:
 			id: icon_image
+			# TODO: create icon for each category
 			source: "" # "./Icons/" + root.category + ".png"
 			keep_ratio: True
 			allow_stretch: True
