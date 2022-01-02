@@ -4,7 +4,7 @@
 
 	canvas.before:
 		Color:
-			rgb: (0.5, 0.5, 0.5)
+			rgb: (0.95, 0.95, 0.95)
 		Rectangle:
 			size: self.size
 
@@ -70,7 +70,8 @@
 
 <PlayerTextInput>:
 	font_size: dp(25)
-	color: (1, 1, 1)
+	foreground_color: (1, 1, 1)
+	background_color: (.2, .2, .2)
 	multiline: False
 	size_hint_y: None
 	height: self.minimum_height
@@ -97,15 +98,15 @@
 		QuestionButton:
 			category: "art"
 		QuestionButton:
+			category: "science"
+		QuestionButton:
 			category: "geography"
 		QuestionButton:
 			category: "history"
 		QuestionButton:
-			category: "informatic"
-		QuestionButton:
 			category: "math"
 		QuestionButton:
-			category: "science"
+			category: "informatic"
 
 	FloatLayout:
 		size_hint_y: 1/5
@@ -135,12 +136,25 @@
 				canvas.after:
 					PopMatrix
 
-		Button:
-			# TODO: add image to the reset button
-			on_release: app.reset_game()
+		ResetButton:
+			background_color: (0, 0, 0, 0)
 			size_hint_x: None
 			width: self.height
 			pos_hint: {"right": 1, "y": 0}
+
+			canvas.before:
+				PushMatrix
+				Rotate:
+					angle: self.angle
+					axis: 0, 0, 1
+					origin: self.center
+			canvas:
+				Rectangle:
+					source: "./reload.png"
+					size: self.size
+					pos: self.pos
+			canvas.after:
+				PopMatrix
 
 
 <QuestionButton>:
@@ -176,28 +190,33 @@
 			radius: [20]
 			size: self.size
 			pos: self.pos
+		Color:
+			rgb: (1, 1, 1)
+		Line:
+			points: [self.x + self.width * 0.05, self.y + self.height * 7/10, self.right - self.width * 0.05, self.y + self.height * 7/10]
+			width: dp(1)
 		PopMatrix
 
 	BoxLayout:
-		size_hint_y: 2/5
+		size_hint_y: 3/10
+		padding: [dp(35), dp(10), dp(15), dp(10)]
 
 		Label:
 			id: qa_label
 			text: "Pergunta"
 			font_size: sp(35)
 			italic: True
-			color: (0.9, 0.9, 0.9)
 			text_size: self.size
-			halign: "center"
+			halign: "left"
 			valign: "center"
+
 		Image:
 			id: icon_image
-			# TODO: create icon for each category
-			source: "" # "./Icons/" + root.category + ".png"
 			keep_ratio: True
 			allow_stretch: True
 			size_hint_x: None
 			width: self.height
+			pos_hint: {"center_y": 0.5}
 
 	Label:
 		id: text_label
@@ -207,3 +226,4 @@
 		halign: "center"
 		valign: "center"
 		padding: (dp(10), dp(10))
+		size_hint_y: 7/10

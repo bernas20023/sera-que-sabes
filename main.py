@@ -98,6 +98,7 @@ class QuestionCard(kv.ButtonBehavior, kv.BoxLayout):
 	def __init__(self, category="", **kwargs):
 		super().__init__(**kwargs)
 		self.category = category
+		self.icon_image.source = "Questions/Icons/" + self.category + ".png"
 		self.question, self.answer = app.questions.pop_question(category)
 		self.displaying_question = True
 		self.flip_anim = kv.Animation(angle=180, duration=0.3)
@@ -147,16 +148,30 @@ class DiceButton(kv.Button):
 		self.roll_sound.play()
 
 
+class ResetButton(kv.Button):
+	angle = kv.NumericProperty()
+	anim = kv.ObjectProperty()
+
+	def __init__(self, **kwargs):
+		super(ResetButton, self).__init__(**kwargs)
+		self.anim = kv.Animation(angle=-720, duration=1)
+		self.anim.bind(on_complete=lambda *_: setattr(self, "angle", 0))
+
+	def on_release(self):
+		app.reset_game()
+		self.anim.start(self)
+
+
 class MainApp(kv.App):
 	questions = kv.ObjectProperty()
 	# TODO: change unique colors for each category
 	category_colors = kv.DictProperty({
-		"art": (0, 1, 0),
-		"geography": (1, 0, 0),
-		"history": (0, 0, 1),
-		"informatic": (1, 1, 0),
-		"math": (0, 1, 1),
-		"science": (1, 0, 1),
+		"art": (0.698, 0.133, 0.133),
+		"science": (0.18, 0.545, 0.341),
+		"geography": (0.98, 0.502, 0.447),
+		"history": (0.98, 0.878, 0.259),
+		"math": (0.059, 0.298, 0.506),
+		"informatic": (1.0, 0.6, 0.2),
 	})
 	reset_on_win = kv.ListProperty()
 
@@ -173,7 +188,7 @@ class MainApp(kv.App):
 
 class QuestionDB(kv.EventDispatcher):
 	questions_path = kv.StringProperty("./Questions")
-	categories = kv.ListProperty(["art", "geography", "history", "informatic", "math", "science"])
+	categories = kv.ListProperty(["art", "science", "geography", "history", "math", "informatic"])
 	art = kv.DictProperty()
 	geography = kv.DictProperty()
 	history = kv.DictProperty()
