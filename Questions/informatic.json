@@ -1,4 +1,12 @@
 {
   "O que o acrônimo JVM quer dizer por extenso?": "Java Virtual Machine",
-  "Python é uma linguagem interpretada ou compilada": "Interpretada"
+  "Python é uma linguagem interpretada ou compilada": "Interpretada",
+  "O que significa Hardware?": "Termo designado a toda parte física envolvida num Sistema de Informação. Ex.: Impressora, Teclado, Vídeo, CPU, etc.",
+  "O que significa Software?": "Termo designado a toda parte lógica envolvida num Sistema de Informação. São os programas do computador e também os dados armazenados nele. Ex.: MSDOS, WINDOWS, WORD, EXCEL, POWERPOINT, ACCESS, etc.",
+  "Quem foi o pirmeiro cientista que usou o termo 'Informática'? E quando e onde o fez?": "A palavra teve origem na Alemanha em 1957 pelo cientista da computação Karl Steinbuch usando a mesma como título do seu artigo",
+  "Qual foi o primeiro computador eletrónico do mundo?": "ENIAC",
+  "O que o acrônimo RAM quer dizer por extenso?" : "Random Acess Memory",
+  "Num computador, o teclado é um dispositivo de ...?": "...entrada",
+  "Num computador, o ecrã é um dispositivo de ...?" : "...saída",
+  "Um dispositivo auxiliar usado para enviar ou receber informações do computador denomina-se..." : "...periférico"
 }
