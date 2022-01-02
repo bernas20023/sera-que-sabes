@@ -1,4 +1,12 @@
 {
   "O que caracteriza um triângulo retângulo?": "Um dos ângulos ser de 90°",
-  "O que é o denominador de uma divisão?": "O número de partes pelo qual o numerador é dividido"
+  "O que é o denominador de uma divisão?": "O número de partes pelo qual o numerador é dividido",
+  "O que é um número primo?" : "Um número é primo se for divisível por 1 e por ele mesmo",
+  "Todos os quadrados são retângulos?" : "Sim",
+  "Todos os retângulos são quadrados?" : "Não",
+  "Qual o valor de Pi com 4 casas decimais?" : "3.1416",
+  "Um fisico famoso nasceu no dia do Pi, quem foi?" : "Albert Einstein",
+  "Completa a série de Fibonacci :  1, 1, 2, 3, 5, 8, 13,_?" : "21, a série de Fibonnaci pega nos dois números anteriores e soma-os para originar o número seguinte ex: 1,1,_; _= 1+1 = 2",
+  "Um trilhão tem quantos zeros?" : "12",
+  "Qual a representação de 40 em Numeração Romana?" : "XL"
 }
